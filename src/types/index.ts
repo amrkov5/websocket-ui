@@ -1,5 +1,5 @@
 type ReqRequest = {
-  type: 'reg';
+  type: 'reg' | 'create_room' | 'add_user_to_room';
   data: string;
   id: 0;
 };
@@ -16,4 +16,8 @@ type registeredUser = {
   errorText?: string;
 };
 
-export { ReqRequest, UserData, registeredUser };
+type AddToRoomData = {
+  indexRoom: string;
+};
+
+export { ReqRequest, UserData, registeredUser, AddToRoomData };

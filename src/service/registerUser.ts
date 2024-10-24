@@ -1,16 +1,15 @@
 import { userDb } from '../db';
 import { UserData } from '../types';
 
-const registerUser = (user: string) => {
+const registerUser = (user: string, connectionId: string) => {
   const parsedUser: UserData = JSON.parse(user);
-  const userIndex = crypto.randomUUID();
   userDb.push({
-    index: userIndex,
+    index: connectionId,
     username: parsedUser.name,
     password: parsedUser.password,
   });
 
-  return { index: userIndex, name: parsedUser.name };
+  return { index: connectionId, name: parsedUser.name };
 };
 
 export default registerUser;
