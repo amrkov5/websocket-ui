@@ -33,6 +33,11 @@ type Ships = {
     x: number;
     y: number;
   };
+  calculatedEnd?: {
+    x: number;
+    y: number;
+  };
+  shoots: number;
   direction: boolean;
   length: number;
   type: 'small' | 'medium' | 'large' | 'huge';

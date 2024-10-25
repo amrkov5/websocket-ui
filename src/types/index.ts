@@ -35,4 +35,18 @@ type ShipsData = {
   indexPlayer: string;
 };
 
-export { ReqRequest, UserData, registeredUser, AddToRoomData, ShipsData };
+type AttackData = {
+  gameId: string;
+  x: number;
+  y: number;
+  indexPlayer: string;
+};
+
+export {
+  ReqRequest,
+  UserData,
+  registeredUser,
+  AddToRoomData,
+  ShipsData,
+  AttackData,
+};

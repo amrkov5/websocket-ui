@@ -3,13 +3,32 @@ import { UserData } from '../types';
 
 const registerUser = (user: string, connectionId: string) => {
   const parsedUser: UserData = JSON.parse(user);
-  userDb.push({
-    index: connectionId,
-    username: parsedUser.name,
-    password: parsedUser.password,
-  });
+  const isUserRegistered = userDb.find(
+    (addedUser) => addedUser.username === parsedUser.name
+  );
+  if (!isUserRegistered) {
+    userDb.push({
+      index: connectionId,
+      username: parsedUser.name,
+      password: parsedUser.password,
+    });
+    const stringifiedData = JSON.stringify({
+      index: connectionId,
+      name: parsedUser.name,
+      error: false,
+      errorText: '',
+    });
 
-  return { index: connectionId, name: parsedUser.name };
+    return { type: 'reg', data: stringifiedData, id: 0 };
+  } else {
+    const stringifiedData = JSON.stringify({
+      index: connectionId,
+      name: parsedUser.name,
+      error: true,
+      errorText: 'The user has already been registered',
+    });
+    return { type: 'reg', data: stringifiedData, id: 0 };
+  }
 };
 
 export default registerUser;

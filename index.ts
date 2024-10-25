@@ -10,6 +10,7 @@ import createGame from './src/service/createGame';
 import addShips from './src/service/addShips';
 import startGame from './src/service/startGame';
 import getTurn from './src/service/getTurn';
+import attack from './src/service/attack';
 
 const HTTP_PORT = 8181;
 
@@ -28,25 +29,14 @@ server.on('connection', (ws) => {
     const parsedData: ReqRequest = JSON.parse(data.toString());
     switch (parsedData.type) {
       case 'reg':
-        const registeredUser: registeredUser = registerUser(
-          parsedData.data,
-          connectionId
-        );
-        if (registeredUser) {
-          registeredUser.error = false;
-          registeredUser.errorText = '';
+        const registeredUser = registerUser(parsedData.data, connectionId);
 
-          const response = {
-            ...parsedData,
-            data: JSON.stringify(registeredUser),
-          };
-          ws.send(JSON.stringify(response));
+        ws.send(JSON.stringify(registeredUser));
 
-          connectionList.forEach((el) => {
-            el.send(updateRooms());
-            el.send(updateWinners());
-          });
-        }
+        connectionList.forEach((el) => {
+          el.send(updateRooms());
+          el.send(updateWinners());
+        });
         break;
       case 'create_room':
         createRoom(connectionId);
@@ -93,8 +83,11 @@ server.on('connection', (ws) => {
           }
         }
         break;
-        case 'randomAttack': 
-        break
+      case 'attack':
+        attack(parsedData.data);
+        break;
+      case 'randomAttack':
+        break;
     }
   });
   ws.on('close', () => {

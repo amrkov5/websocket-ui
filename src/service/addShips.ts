@@ -1,5 +1,6 @@
 import { gamesDb } from '../db';
 import { ShipsData } from '../types';
+import calculateShips from './calculateShips';
 
 const addShips = (shipsData: string) => {
   const parsedData: ShipsData = JSON.parse(shipsData);
@@ -9,9 +10,13 @@ const addShips = (shipsData: string) => {
       (el) => el.idPlayer === parsedData.indexPlayer
     );
     if (user) {
-      user.ships = parsedData.ships;
+      const upgradedShips = parsedData.ships.map((ship) => {
+        return { ...ship, calculatedEnd: calculateShips(ship), shoots: 0 };
+      });
+      user.ships = upgradedShips;
     }
   }
+  console.log(game?.users[0].ships);
   return game;
 };
 
