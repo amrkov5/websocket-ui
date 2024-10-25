@@ -1,5 +1,14 @@
+import { Ships } from '../db';
+
 type ReqRequest = {
-  type: 'reg' | 'create_room' | 'add_user_to_room';
+  type:
+    | 'reg'
+    | 'create_room'
+    | 'add_user_to_room'
+    | 'add_ships'
+    | 'randomAttack'
+    | 'attack'
+    | 'finish';
   data: string;
   id: 0;
 };
@@ -20,4 +29,10 @@ type AddToRoomData = {
   indexRoom: string;
 };
 
-export { ReqRequest, UserData, registeredUser, AddToRoomData };
+type ShipsData = {
+  gameId: string;
+  ships: Ships[];
+  indexPlayer: string;
+};
+
+export { ReqRequest, UserData, registeredUser, AddToRoomData, ShipsData };

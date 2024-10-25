@@ -19,11 +19,12 @@ type roomsDbType = {
 
 type GamesDbType = {
   gameId: string;
-  users: usersInGame[];
+  users: UsersInGame[];
 };
 
-type usersInGame = {
+type UsersInGame = {
   userIndex: string;
+  idPlayer: string;
   ships?: Ships[];
 };
 
@@ -53,4 +54,4 @@ const roomsDb: roomsDbType[] = [];
 
 const gamesDb: GamesDbType[] = [];
 
-export { userDb, roomsDb, winnersDb, gamesDb };
+export { userDb, roomsDb, winnersDb, gamesDb, Ships, UsersInGame, GamesDbType };
