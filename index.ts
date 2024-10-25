@@ -53,7 +53,7 @@ server.on('connection', (ws) => {
             el.send(updateRooms());
           });
           result.forEach((user) => {
-            connectionList.get(user.index).send();
+            connectionList.get(user.index).send(updateWinners());
           });
           const game = createGame(result[0].index, result[1].index);
           game.users.forEach((user) => {
