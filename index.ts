@@ -11,6 +11,7 @@ import addShips from './src/service/addShips';
 import startGame from './src/service/startGame';
 import getTurn from './src/service/getTurn';
 import attack from './src/service/attack';
+import { gamesDb, turnData } from './src/db';
 
 const HTTP_PORT = 8181;
 
@@ -84,7 +85,25 @@ server.on('connection', (ws) => {
         }
         break;
       case 'attack':
-        attack(parsedData.data);
+        const currentGameData = JSON.parse(parsedData.data);
+        if (currentGameData.indexPlayer === turnData.playerId) {
+          const attackResult = attack(parsedData.data);
+
+          const foundGame = gamesDb.find(
+            (game) => game.gameId === currentGameData.gameId
+          );
+          if (foundGame) {
+            foundGame.users.forEach((user) => {
+              const foundUser = connectionList.get(user.userIndex);
+              attackResult?.data.forEach((res) => {
+                foundUser.send(JSON.stringify(res));
+              });
+              if (attackResult?.status === 'miss')
+                foundUser.send(getTurn(foundGame, currentGameData.indexPlayer));
+            });
+          }
+        }
+
         break;
       case 'randomAttack':
         break;

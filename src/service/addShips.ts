@@ -16,7 +16,6 @@ const addShips = (shipsData: string) => {
       user.ships = upgradedShips;
     }
   }
-  console.log(game?.users[0].ships);
   return game;
 };
 

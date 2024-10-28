@@ -59,4 +59,15 @@ const roomsDb: roomsDbType[] = [];
 
 const gamesDb: GamesDbType[] = [];
 
-export { userDb, roomsDb, winnersDb, gamesDb, Ships, UsersInGame, GamesDbType };
+const turnData = { playerId: '' };
+
+export {
+  userDb,
+  roomsDb,
+  winnersDb,
+  gamesDb,
+  Ships,
+  UsersInGame,
+  GamesDbType,
+  turnData,
+};
