@@ -20,6 +20,7 @@ type roomsDbType = {
 type GamesDbType = {
   gameId: string;
   users: UsersInGame[];
+  log: { playerId: string; x: number; y: number }[];
 };
 
 type UsersInGame = {
@@ -47,6 +48,7 @@ type Ships = {
 const userDb: UserDbType[] = [];
 
 const winnersDb: winnersDbType[] = [];
+
 const roomsDb: roomsDbType[] = [];
 
 const gamesDb: GamesDbType[] = [];

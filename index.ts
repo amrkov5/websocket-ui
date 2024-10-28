@@ -13,6 +13,7 @@ import getTurn from './src/service/getTurn';
 import attack from './src/service/attack';
 import { gamesDb, turnData } from './src/db';
 import isGameFinished from './src/service/finishGame';
+import randomAttack from './src/service/randomAttack';
 
 const HTTP_PORT = 8181;
 
@@ -94,23 +95,55 @@ server.on('connection', (ws) => {
             (game) => game.gameId === currentGameData.gameId
           );
           if (foundGame) {
+            let shouldFinishGame;
             foundGame.users.forEach((user) => {
               const foundUser = connectionList.get(user.userIndex);
               attackResult?.data.forEach((res) => {
                 foundUser.send(JSON.stringify(res));
               });
-              const shouldFinishGame = isGameFinished(foundGame);
+              shouldFinishGame = isGameFinished(foundGame);
               if (shouldFinishGame) {
                 foundUser.send(JSON.stringify(shouldFinishGame));
               }
               if (attackResult?.status === 'miss')
                 foundUser.send(getTurn(foundGame, currentGameData.indexPlayer));
             });
+            console.log(shouldFinishGame);
+            if (shouldFinishGame) {
+              connectionList.forEach((connection) => {
+                connection.send(updateWinners());
+              });
+            }
           }
         }
 
         break;
       case 'randomAttack':
+        const gameData = JSON.parse(parsedData.data);
+        const randomAttackResult = randomAttack(parsedData.data);
+
+        const foundGame = gamesDb.find(
+          (game) => game.gameId === gameData.gameId
+        );
+        if (foundGame) {
+          let shouldFinishGame;
+          foundGame.users.forEach((user) => {
+            const foundUser = connectionList.get(user.userIndex);
+            randomAttackResult?.data.forEach((res) => {
+              foundUser.send(JSON.stringify(res));
+            });
+            shouldFinishGame = isGameFinished(foundGame);
+            if (shouldFinishGame) {
+              foundUser.send(JSON.stringify(shouldFinishGame));
+            }
+            foundUser.send(getTurn(foundGame, gameData.indexPlayer));
+          });
+          if (shouldFinishGame) {
+            connectionList.forEach((connection) => {
+              connection.send(updateWinners());
+            });
+          }
+        }
         break;
     }
   });

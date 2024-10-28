@@ -10,6 +10,7 @@ const createGame = (user1: string, user2: string) => {
       { userIndex: user1, idPlayer: player1Id },
       { userIndex: user2, idPlayer: player2Id },
     ],
+    log:[]
   };
 
   gamesDb.push(game);
