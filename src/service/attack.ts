@@ -31,6 +31,7 @@ const attack = (data: string) => {
         }
 
         if (status === 'killed') {
+          ship.status = 'killed';
           if (ship.direction) {
             for (let i = -1; i <= ship.length; i += 1) {
               if (ship.position.x < 9) {

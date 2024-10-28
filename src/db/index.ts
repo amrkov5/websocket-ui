@@ -41,20 +41,12 @@ type Ships = {
   direction: boolean;
   length: number;
   type: 'small' | 'medium' | 'large' | 'huge';
+  status: 'alive' | 'killed';
 };
 
 const userDb: UserDbType[] = [];
 
-const winnersDb: winnersDbType[] = [
-  {
-    name: 'user1',
-    wins: 1500,
-  },
-  {
-    name: 'user2',
-    wins: 3,
-  },
-];
+const winnersDb: winnersDbType[] = [];
 const roomsDb: roomsDbType[] = [];
 
 const gamesDb: GamesDbType[] = [];

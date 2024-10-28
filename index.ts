@@ -12,6 +12,7 @@ import startGame from './src/service/startGame';
 import getTurn from './src/service/getTurn';
 import attack from './src/service/attack';
 import { gamesDb, turnData } from './src/db';
+import isGameFinished from './src/service/finishGame';
 
 const HTTP_PORT = 8181;
 
@@ -98,6 +99,10 @@ server.on('connection', (ws) => {
               attackResult?.data.forEach((res) => {
                 foundUser.send(JSON.stringify(res));
               });
+              const shouldFinishGame = isGameFinished(foundGame);
+              if (shouldFinishGame) {
+                foundUser.send(JSON.stringify(shouldFinishGame));
+              }
               if (attackResult?.status === 'miss')
                 foundUser.send(getTurn(foundGame, currentGameData.indexPlayer));
             });

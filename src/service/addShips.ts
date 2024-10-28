@@ -1,4 +1,4 @@
-import { gamesDb } from '../db';
+import { gamesDb, Ships } from '../db';
 import { ShipsData } from '../types';
 import calculateShips from './calculateShips';
 
@@ -10,8 +10,13 @@ const addShips = (shipsData: string) => {
       (el) => el.idPlayer === parsedData.indexPlayer
     );
     if (user) {
-      const upgradedShips = parsedData.ships.map((ship) => {
-        return { ...ship, calculatedEnd: calculateShips(ship), shoots: 0 };
+      const upgradedShips: Ships[] = parsedData.ships.map((ship) => {
+        return {
+          ...ship,
+          calculatedEnd: calculateShips(ship),
+          shoots: 0,
+          status: 'alive',
+        };
       });
       user.ships = upgradedShips;
     }
