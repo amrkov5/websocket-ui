@@ -7,6 +7,9 @@ const getTurn = (game: GamesDbType, player?: string) => {
       currentPlayer: game.users[randomPlayer].idPlayer,
     });
     turnData.playerId = game.users[randomPlayer].idPlayer;
+
+    console.log({ type: 'turn', data: returnedData, id: 0 });
+
     return JSON.stringify({ type: 'turn', data: returnedData, id: 0 });
   } else {
     const playerId = game.users.find((el) => el.idPlayer !== player);
@@ -14,6 +17,8 @@ const getTurn = (game: GamesDbType, player?: string) => {
       currentPlayer: playerId!.idPlayer,
     });
     turnData.playerId = playerId!.idPlayer;
+
+    console.log({ type: 'turn', data: returnedData, id: 0 });
 
     return JSON.stringify({ type: 'turn', data: returnedData, id: 0 });
   }

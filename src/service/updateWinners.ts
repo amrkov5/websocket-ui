@@ -6,6 +6,7 @@ const updateWinners = () => {
     data: JSON.stringify(winnersDb),
     id: 0,
   };
+  console.log(winnersResp);
   return JSON.stringify(winnersResp);
 };
 

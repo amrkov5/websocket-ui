@@ -30,10 +30,16 @@ server.on('connection', (ws) => {
   connectionList.set(connectionId, ws);
   ws.on('message', (data) => {
     const parsedData: ReqRequest = JSON.parse(data.toString());
+    console.log({
+      ...parsedData,
+      data:
+        parsedData.data.length > 0
+          ? JSON.parse(parsedData.data)
+          : parsedData.data,
+    });
     switch (parsedData.type) {
       case 'reg':
         const registeredUser = registerUser(parsedData.data, connectionId);
-
         ws.send(JSON.stringify(registeredUser));
 
         connectionList.forEach((el) => {
@@ -99,16 +105,18 @@ server.on('connection', (ws) => {
             foundGame.users.forEach((user) => {
               const foundUser = connectionList.get(user.userIndex);
               attackResult?.data.forEach((res) => {
+                console.log(res);
                 foundUser.send(JSON.stringify(res));
               });
               shouldFinishGame = isGameFinished(foundGame);
               if (shouldFinishGame) {
+                console.log(shouldFinishGame);
                 foundUser.send(JSON.stringify(shouldFinishGame));
               }
-              if (attackResult?.status === 'miss')
+              if (attackResult?.status === 'miss') {
                 foundUser.send(getTurn(foundGame, currentGameData.indexPlayer));
+              }
             });
-            console.log(shouldFinishGame);
             if (shouldFinishGame) {
               connectionList.forEach((connection) => {
                 connection.send(updateWinners());
@@ -130,10 +138,12 @@ server.on('connection', (ws) => {
           foundGame.users.forEach((user) => {
             const foundUser = connectionList.get(user.userIndex);
             randomAttackResult?.data.forEach((res) => {
+              console.log(res);
               foundUser.send(JSON.stringify(res));
             });
             shouldFinishGame = isGameFinished(foundGame);
             if (shouldFinishGame) {
+              console.log(shouldFinishGame);
               foundUser.send(JSON.stringify(shouldFinishGame));
             }
             foundUser.send(getTurn(foundGame, gameData.indexPlayer));

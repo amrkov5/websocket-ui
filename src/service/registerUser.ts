@@ -19,6 +19,7 @@ const registerUser = (user: string, connectionId: string) => {
       errorText: '',
     });
 
+    console.log({ type: 'reg', data: JSON.parse(stringifiedData), id: 0 });
     return { type: 'reg', data: stringifiedData, id: 0 };
   } else {
     const stringifiedData = JSON.stringify({
@@ -27,6 +28,7 @@ const registerUser = (user: string, connectionId: string) => {
       error: true,
       errorText: 'The user has already been registered',
     });
+    console.log({ type: 'reg', data: stringifiedData, id: 0 });
     return { type: 'reg', data: stringifiedData, id: 0 };
   }
 };

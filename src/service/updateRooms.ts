@@ -7,6 +7,7 @@ const updateRooms = () => {
     data: JSON.stringify(activeRooms),
     id: 0,
   };
+  console.log(roomsResp);
   return JSON.stringify(roomsResp);
 };
 
